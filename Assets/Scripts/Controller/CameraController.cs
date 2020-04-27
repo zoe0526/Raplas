@@ -4,18 +4,30 @@ using UnityEngine;
 
 
 public class CameraController : MonoBehaviour
-{
-    public Player mPlayer;
-    Vector3 offset = new Vector3(0, 0, 0);
-    // Start is called before the first frame update
-    void Start()
+{ 
+    private Transform target;
+    [SerializeField]
+    public float mDistance=5f;//z
+    [SerializeField]
+    public float mHeight = 8f;//y
+    [SerializeField]
+    public float mSmoothangle=1f;
+    private Transform mCamera;
+
+    void Awake()
     {
-        offset = transform.position - mPlayer.transform.position;
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        mCamera = GetComponent<Transform>();
+    }
+
     void Update()
     {
-        transform.position = mPlayer.transform.position + offset;
+        float angle = Mathf.LerpAngle(mCamera.eulerAngles.y, target.eulerAngles.y, mSmoothangle * Time.deltaTime);
+        Quaternion rotate = Quaternion.Euler(0, angle, 0);
+        mCamera.position = target.position - (rotate * Vector3.forward * mDistance) + (Vector3.up * mHeight);
     }
 }

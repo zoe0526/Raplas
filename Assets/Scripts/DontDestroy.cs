@@ -15,21 +15,18 @@ public class DontDestroy<T> : MonoBehaviour where T:DontDestroy<T>
         }
         else
         {
-            Destroy(gameObject);
-
+            Destroy(gameObject); 
         }
     }
+
     void Start()
     {
         if(Instance==(T)this)
         {
             OnStart();
         }
-    }
-    void Update()
-    {
+    } 
 
-    }
     virtual protected void OnAwake()
     {
 
